@@ -5,17 +5,19 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-@Setter
 @RequiredArgsConstructor
 public class User {
 
+    private Long id;
+
     @Email(message = "Неверный формат почты")
-    private final String email;
+    private String email;
 
     @NotBlank(message = "Логин должен быть указан")
     private String login;
@@ -24,4 +26,6 @@ public class User {
 
     @Past(message = "День рождения не может быть в будущем")
     private LocalDate birthday;
+
+    private Set<Long> friends = new HashSet<>();
 }

@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
-@Setter
 @RequiredArgsConstructor
 public class Film {
+
+    private Long id;
 
     @NotBlank(message = "Имя не может быть пустым!")
     private String name;
@@ -22,4 +24,6 @@ public class Film {
 
     @Positive(message = "Длительность должна быть положительной")
     private int duration;
+
+    private Set<Long> likes;
 }
