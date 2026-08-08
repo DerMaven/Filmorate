@@ -1,9 +1,7 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.exception.SameIDException;
-import org.example.exception.UserAlreadyExistsException;
-import org.example.exception.UserNotFoundException;
+import org.example.exception.*;
 import org.example.model.User;
 import org.example.storage.UserStorage;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,22 @@ import java.util.*;
 public class UserService {
 
     private final UserStorage userStorage;
+
+    public User registerUser(User user) {
+        return userStorage.register(user);
+    }
+
+    public User updateUser(User user) {
+        return userStorage.update(user);
+    }
+
+    public User getUser(Long id) {
+        return userStorage.findById(id);
+    }
+
+    public List<User> getUsers() {
+        return userStorage.getUsers();
+    }
 
     public void addFriend(Long userId, Long friendId) {
         User friend = userStorage.findById(friendId);

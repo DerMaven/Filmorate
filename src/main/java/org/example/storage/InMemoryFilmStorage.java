@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.exception.FilmAlreadyExistsException;
 import org.example.exception.FilmNotFoundException;
 import org.example.exception.FilmReleaseDateException;
-import org.example.exception.FilmUpdateException;
+import org.example.exception.UpdateException;
 import org.example.model.Film;
-import org.example.model.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -37,7 +36,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Film update(Film film) {
         if (!filmRepository.containsValue(film)) {
-            throw new FilmUpdateException("Произошла ошибка в обновлении фильма, его не существует");
+            throw new UpdateException("Произошла ошибка в обновлении фильма, его не существует");
         }
         filmRepository.put(film.getId(), film);
         return film;

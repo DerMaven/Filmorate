@@ -16,6 +16,26 @@ public class FilmService {
     private final UserStorage userStorage;
     private final FilmStorage filmStorage;
 
+    public Film createFilm(Film film) {
+        return filmStorage.create(film);
+    }
+
+    public Film deleteFilm(Film film) {
+        return filmStorage.delete(film);
+    }
+
+    public Film updateFilm(Film film) {
+        return filmStorage.update(film);
+    }
+
+    public Film getFilm(Long id) {
+        return filmStorage.findById(id);
+    }
+
+    public List<Film> getFilms() {
+        return filmStorage.getFilms();
+    }
+
     public void like(Long filmId, Long userId) {
         Film film = filmStorage.findById(filmId);
         User user = userStorage.findById(userId);
