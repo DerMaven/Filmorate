@@ -37,7 +37,7 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public Film getFilm(@PathVariable Long id, HttpServletRequest request) {
+    public Film getFilm(@PathVariable Integer id, HttpServletRequest request) {
         log.info("Выполнен запрос по эндпоинту: '{} {}', Строка параметров запроса: '{}'", request.getMethod(), request.getRequestURI(), request.getQueryString());
         return filmService.getFilm(id);
     }
@@ -49,19 +49,19 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public void like(@PathVariable Long id, @PathVariable Long userId, HttpServletRequest request) {
+    public void like(@PathVariable Integer id, @PathVariable Integer userId, HttpServletRequest request) {
         log.info("Выполнен запрос по эндпоинту: '{} {}', Строка параметров запроса: '{}'", request.getMethod(), request.getRequestURI(), request.getQueryString());
         filmService.like(id, userId);
     }
 
     @GetMapping("/popular?count={count}")
-    public List<Film> getPopularFilms(@RequestParam(defaultValue = "10") Long count, HttpServletRequest request) {
+    public List<Film> getPopularFilms(@RequestParam(defaultValue = "10") Integer count, HttpServletRequest request) {
         log.info("Выполнен запрос по эндпоинту: '{} {}', Строка параметров запроса: '{}'", request.getMethod(), request.getRequestURI(), request.getQueryString());
         return filmService.getPopularFilms(count);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public void dislike(@PathVariable Long id, @PathVariable Long userId, HttpServletRequest request) {
+    public void dislike(@PathVariable Integer id, @PathVariable Integer userId, HttpServletRequest request) {
         log.info("Выполнен запрос по эндпоинту: '{} {}', Строка параметров запроса: '{}'", request.getMethod(), request.getRequestURI(), request.getQueryString());
         filmService.dislike(id, userId);
     }
