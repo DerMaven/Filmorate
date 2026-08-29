@@ -1,9 +1,9 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.exception.*;
 import org.example.model.User;
-import org.example.storage.UserStorage;
+import org.example.storage.parent.UserStorage;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,6 +12,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserService {
 
+    @Qualifier("db")
     private final UserStorage userStorage;
 
     public User registerUser(User user) {
@@ -22,51 +23,27 @@ public class UserService {
         return userStorage.update(user);
     }
 
-    public User getUser(Long id) {
-        return userStorage.findById(id);
+    public User getUser(Integer id) {
+        return userStorage.findById(id).get();
     }
 
     public List<User> getUsers() {
         return userStorage.getUsers();
     }
 
-    public void addFriend(Long userId, Long friendId) {
-        User friend = userStorage.findById(friendId);
-        User user = userStorage.findById(userId);
-
-        if (Objects.equals(userId, friendId)) throw new SameIDException("ID пользователей одинаковы");
-        if (user.getFriends().contains(friend.getId())) throw new UserAlreadyExistsException("Друг с ID: " + friendId + " уже существует в списке друзей");
-
-        friend.getFriends().add(user.getId());
-        user.getFriends().add(friend.getId());
+    public void addFriend(Integer userId, Integer friendId) {
+        userStorage.addFriend(userId, friendId);
     }
 
-    public void deleteFriend(Long userId, Long friendId) {
-        User friend = userStorage.findById(friendId);
-        User user = userStorage.findById(userId);
-
-        if (Objects.equals(userId, friendId)) throw new SameIDException("ID пользователей одинаковы");
-        if (user.getFriends().contains(friend.getId())) throw new UserAlreadyExistsException("Друг с ID: " + friendId + " уже существует в списке друзей");
-
-        friend.getFriends().remove(user.getId());
-        user.getFriends().remove(friend.getId());
+    public void deleteFriend(Integer userId, Integer friendId) {
+        userStorage.deleteFriend(userId, friendId);
     }
 
-    public List<User> getFriends(Long userId) {
-        User user = userStorage.findById(userId);
-        return user.getFriends()
-                .stream()
-                .map(userStorage::findById)
-                .toList();
+    public List<User> getFriends(Integer userId) {
+        return userStorage.getFriends(userId);
     }
 
-    public List<User> getCommonFriends(Long userId, Long otherId) {
-        User user = userStorage.findById(userId);
-        User otherUser = userStorage.findById(otherId);
-
-        return user.getFriends().stream()
-                .filter(id -> otherUser.getFriends().contains(id))
-                .map(userStorage::findById)
-                .toList();
+    public List<User> getCommonFriends(Integer userId, Integer otherId) {
+       return userStorage.getCommonFriends(userId, otherId);
     }
 }

@@ -75,6 +75,18 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleGenreNotFound(GenreNotFoundException e) {
+        return new ErrorResponse("Ошибка поиска жанра: ", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleMpaNotFound(MpaNotFoundException e) {
+        return new ErrorResponse("Ошибка поиска рейтинга: ", e.getMessage());
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(Throwable t) {
         return new ErrorResponse("Возникла внезапная ошибка", t.getMessage());
