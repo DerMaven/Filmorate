@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class InMemoryFilmStorage implements FilmStorage {
 
-    @Qualifier("")
+    @Qualifier("memoryUserStorage")
     private final UserStorage userStorage;
 
     private Integer idCounter = 0;
