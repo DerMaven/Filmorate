@@ -1,18 +1,21 @@
 package org.example.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Entity
+@Table(name = "mpas")
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class Mpa {
-    private Integer id;
 
-    public Mpa(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @NotBlank(message = "Указание рейтинга должно иметься у фильма!")
     private String name;
