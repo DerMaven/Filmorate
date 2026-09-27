@@ -22,9 +22,9 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Qualifier("memoryUserStorage")
     private final UserStorage userStorage;
 
-    private Integer idCounter = 0;
+    private Long idCounter = 0L;
     private static final LocalDate FILM_MIN_BIRTHDATE = LocalDate.of(1895, 12, 28);
-    Map<Integer, Film> filmRepository = new HashMap<>();
+    Map<Long, Film> filmRepository = new HashMap<>();
 
     @Override
     public Film create(Film film) {
@@ -63,12 +63,12 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Optional<Film> findById(Integer filmId) {
+    public Optional<Film> findById(Long filmId) {
         return Optional.ofNullable(filmRepository.get(filmId));
     }
 
     @Override
-    public void like(Integer filmId, Integer userId) {
+    public void like(Long filmId, Long userId) {
         Optional<Film> film = findById(filmId);
         Optional<User> user = userStorage.findById(userId);
 
@@ -80,7 +80,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public void dislike(Integer filmId, Integer userId) {
+    public void dislike(Long filmId, Long userId) {
         Optional<Film> film = findById(filmId);
         Optional<User> user = userStorage.findById(userId);
 
@@ -102,7 +102,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
 
-    private Integer generateId() {
+    private Long generateId() {
         return ++idCounter;
     }
 }

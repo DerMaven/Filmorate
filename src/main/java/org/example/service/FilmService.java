@@ -27,7 +27,7 @@ public class FilmService {
         return filmStorage.update(film);
     }
 
-    public Film getFilm(Integer id) {
+    public Film getFilm(Long id) {
         return filmStorage.findById(id).get();
     }
 
@@ -35,11 +35,11 @@ public class FilmService {
         return filmStorage.getFilms();
     }
 
-    public void like(Integer filmId, Integer userId) {
+    public void like(Long filmId, Long userId) {
         filmStorage.like(filmId, userId);
     }
 
-    public void dislike(Integer filmId, Integer userId) {
+    public void dislike(Long filmId, Long userId) {
         filmStorage.dislike(filmId, userId);
     }
 

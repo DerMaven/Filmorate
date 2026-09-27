@@ -10,8 +10,8 @@ public interface FilmStorage {
      Film update(Film film);
      Film delete(Film film);
      List<Film> getFilms();
-     Optional<Film> findById(Integer filmId);
-     void like(Integer filmId, Integer userId);
-     void dislike(Integer filmId, Integer userId);
+     Optional<Film> findById(Long filmId);
+     void like(Long filmId, Long userId);
+     void dislike(Long filmId, Long userId);
      List<Film> getPopularFilms(Integer count);
 }

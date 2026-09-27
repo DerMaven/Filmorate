@@ -22,7 +22,7 @@ public class Film {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Название не может быть пустым!")
     @Column(nullable = false)
@@ -55,5 +55,5 @@ public class Film {
             joinColumns = @JoinColumn(name = "film_id")
     )
     @Column(name = "user_id")
-    private Set<Integer> likes = new HashSet<>();
+    private Set<Long> likes = new HashSet<>();
 }

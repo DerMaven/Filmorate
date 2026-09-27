@@ -10,9 +10,9 @@ public interface UserStorage {
     User register(User user);
     User update(User user);
     List<User> getUsers();
-    Optional<User> findById(Integer userId);
-    void addFriend(Integer userId, Integer friendId);
-    void deleteFriend(Integer userId, Integer friendId);
-    List<User> getFriends(Integer userId);
-    List<User> getCommonFriends(Integer userId, Integer otherId);
+    Optional<User> findById(Long userId);
+    void addFriend(Long userId, Long friendId);
+    void deleteFriend(Long userId, Long friendId);
+    List<User> getFriends(Long userId);
+    List<User> getCommonFriends(Long userId, Long otherId);
 }
