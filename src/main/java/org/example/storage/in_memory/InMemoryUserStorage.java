@@ -1,10 +1,7 @@
 package org.example.storage.in_memory;
 
 import lombok.RequiredArgsConstructor;
-import org.example.exception.RegistrationException;
-import org.example.exception.SameIDException;
-import org.example.exception.UpdateException;
-import org.example.exception.UserAlreadyExistsException;
+import org.example.exception.*;
 import org.example.model.User;
 import org.example.storage.parent.UserStorage;
 import org.springframework.stereotype.Repository;
@@ -14,12 +11,12 @@ import java.util.*;
 @Repository("memoryUserStorage")
 @RequiredArgsConstructor
 public class InMemoryUserStorage implements UserStorage {
-    private Integer idCounter = 0;
-    Map<Integer, User> userRepository = new HashMap<>();
+    private Long idCounter = 0L;
+    Map<Long, User> userRepository = new HashMap<>();
 
     @Override
     public User register(User user) {
-        if (userRepository.containsValue(user)) {
+        if (userRepository.containsKey(user.getId())) {
             throw new RegistrationException("Данный пользователь уже существует");
         }
         if (user.getName() == null) user.setName(user.getLogin());
@@ -43,58 +40,53 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public void addFriend(Integer userId, Integer friendId) {
-        User friend = findById(friendId).get();
-        User user = findById(userId).get();
+    public void addFriend(Long userId, Long friendId) {
+        User friend = findById(friendId);
+        User user = findById(userId);
 
         if (Objects.equals(userId, friendId)) throw new SameIDException("ID пользователей одинаковы");
-        if (user.getFriends().contains(friend.getId())) throw new UserAlreadyExistsException("Друг с ID: " + friendId + " уже существует в списке друзей");
+        if (user.getFriends().contains(friend)) throw new UserAlreadyExistsException("Друг с ID: " + friendId + " уже существует в списке друзей");
 
-        friend.getFriends().add(user.getId());
-        user.getFriends().add(friend.getId());
+        friend.getFriends().add(user);
+        user.getFriends().add(friend);
     }
 
     @Override
-    public void deleteFriend(Integer userId, Integer friendId) {
-        User friend = findById(friendId).get();
-        User user = findById(userId).get();
+    public void deleteFriend(Long userId, Long friendId) {
+        User friend = findById(friendId);
+        User user = findById(userId);
 
         if (Objects.equals(userId, friendId)) throw new SameIDException("ID пользователей одинаковы");
-        if (user.getFriends().contains(friend.getId())) throw new UserAlreadyExistsException("Друг с ID: " + friendId + " уже существует в списке друзей");
+        if (!user.getFriends().contains(friend)) throw new UserNotFoundException("Друг с ID: " + friendId + " отсутствует в списке друзей");
 
-        friend.getFriends().remove(user.getId());
-        user.getFriends().remove(friend.getId());
+        friend.getFriends().remove(user);
+        user.getFriends().remove(friend);
     }
 
     @Override
-    public List<User> getFriends(Integer userId) {
-        User user = findById(userId).get();
+    public List<User> getFriends(Long userId) {
+        User user = findById(userId);
         return user.getFriends()
-                .stream()
-                .map(this::findById)
-                .flatMap(Optional::stream)
-                .toList();
+                .stream().toList();
     }
 
     @Override
-    public List<User> getCommonFriends(Integer userId, Integer otherId) {
-        User otherUser = findById(otherId).get();
-        User user = findById(userId).get();
+    public List<User> getCommonFriends(Long userId, Long otherId) {
+        User otherUser = findById(otherId);
+        User user = findById(userId);
 
 
         return user.getFriends().stream()
-                .filter(id -> otherUser.getFriends().contains(id))
-                .map(this::findById)
-                .flatMap(Optional::stream)
+                .filter(otherUser.getFriends()::contains)
                 .toList();
     }
 
-    private Integer generateId() {
+    private Long generateId() {
         return ++idCounter;
     }
 
     @Override
-    public Optional<User> findById(Integer userId) {
-        return Optional.of(userRepository.get(userId));
+    public User findById(Long userId) {
+        return userRepository.get(userId);
     }
 }
