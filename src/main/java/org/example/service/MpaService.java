@@ -21,7 +21,7 @@ public class MpaService {
         return mpaStorage.findAll();
     }
 
-    public Mpa getById(Integer id) {
+    public Mpa getById(Long id) {
         return mpaStorage.findById(id)
                 .orElseThrow(() -> new MpaNotFoundException("Mpa с id: " + id + " не найден"));
     }

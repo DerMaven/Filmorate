@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository("memoryMpaStorage")
 @RequiredArgsConstructor
 public class InMemoryMpaStorage implements MpaStorage {
-    Map<Integer, Mpa> mpaRepository = new HashMap<>();
+    Map<Long, Mpa> mpaRepository = new HashMap<>();
 
     @Override
     public List<Mpa> findAll() {
@@ -21,7 +21,7 @@ public class InMemoryMpaStorage implements MpaStorage {
     }
 
     @Override
-    public Optional<Mpa> findById(Integer id) {
+    public Optional<Mpa> findById(Long id) {
         return Optional.ofNullable(mpaRepository.get(id));
     }
 }
