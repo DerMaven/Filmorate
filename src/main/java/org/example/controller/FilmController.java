@@ -54,7 +54,7 @@ public class FilmController {
         filmService.like(id, userId);
     }
 
-    @GetMapping("/popular?count={count}")
+    @GetMapping("/popular")
     public List<Film> getPopularFilms(@RequestParam(defaultValue = "10") Integer count, HttpServletRequest request) {
         log.info("Выполнен запрос по эндпоинту: '{} {}', Строка параметров запроса: '{}'", request.getMethod(), request.getRequestURI(), request.getQueryString());
         return filmService.getPopularFilms(count);
