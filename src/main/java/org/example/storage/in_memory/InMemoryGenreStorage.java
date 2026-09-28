@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository("memoryGenreStorage")
 @RequiredArgsConstructor
 public class InMemoryGenreStorage implements GenreStorage {
-    Map<Integer, Genre> genreRepository = new HashMap<>();
+    Map<Long, Genre> genreRepository = new HashMap<>();
 
     @Override
     public List<Genre> findAll() {
@@ -21,7 +21,7 @@ public class InMemoryGenreStorage implements GenreStorage {
     }
 
     @Override
-    public Optional<Genre> findById(Integer id) {
+    public Optional<Genre> findById(Long id) {
         return Optional.ofNullable(genreRepository.get(id));
     }
 }

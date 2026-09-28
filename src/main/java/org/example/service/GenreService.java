@@ -20,7 +20,7 @@ public class GenreService {
         return genreStorage.findAll();
     }
 
-    public Genre getById(Integer id) {
+    public Genre getById(Long id) {
         return genreStorage.findById(id)
                 .orElseThrow(() -> new GenreNotFoundException("Жанр с id: " + id + " не найден"));
     }

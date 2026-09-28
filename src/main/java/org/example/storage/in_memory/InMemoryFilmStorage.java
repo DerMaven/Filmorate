@@ -70,25 +70,25 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public void like(Long filmId, Long userId) {
         Optional<Film> film = findById(filmId);
-        Optional<User> user = userStorage.findById(userId);
+        User user = userStorage.findById(userId);
 
-        if (film.get().getLikes().contains(user.get().getId())) {
-            throw new FilmAlreadyLikedException("Лайк уже поставлен пользователем с ID: " + user.get().getId());
+        if (film.get().getLikes().contains(user.getId())) {
+            throw new FilmAlreadyLikedException("Лайк уже поставлен пользователем с ID: " + user.getId());
         }
 
-        film.get().getLikes().add(user.get().getId());
+        film.get().getLikes().add(user.getId());
     }
 
     @Override
     public void dislike(Long filmId, Long userId) {
         Optional<Film> film = findById(filmId);
-        Optional<User> user = userStorage.findById(userId);
+        User user = userStorage.findById(userId);
 
-        if (!film.get().getLikes().contains(user.get().getId())) {
-            throw new FilmAlreadyLikedException("Лайк ранее не был выставлен пользователем с ID: " + user.get().getId());
+        if (!film.get().getLikes().contains(user.getId())) {
+            throw new FilmAlreadyLikedException("Лайк ранее не был выставлен пользователем с ID: " + user.getId());
         }
 
-        film.get().getLikes().remove(user.get().getId());
+        film.get().getLikes().remove(user.getId());
     }
 
     @Override
